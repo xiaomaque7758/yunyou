@@ -1,0 +1,95 @@
+//1:加载模块
+const express = require("express");
+const pool = require("./pool");
+//2:创建express对象
+var app = express();
+//2.1:加载跨域访问组件
+const cors = require("cors");
+//2.2:配置允许脚手架访问程序
+app.use(cors({
+    origin:["http://127.0.0.1:3002",
+    "http://localhost:3002"],
+    credentials:true
+}));
+
+//3:指定监听端口3333
+app.listen(3333);
+
+//2.1:加载跨域访问组件
+
+
+//4:指定静态目录 public
+// __dirname 当前程序所属目录绝对路径 
+//app.js vue_app_server
+app.use(express.static(__dirname+"/public"))
+
+//功能一：首页轮播图
+app.get("/imagelist",(req,res)=>{
+    var obj = [
+      {aid:1,img_url:"http://127.0.0.1:3333/img/banner.jpg"},
+      {aid:2,img_url:"http://127.0.0.1:3333/img/banner1.jpg"},
+      {aid:3,img_url:"http://127.0.0.1:3333/img/banner2.jpg"},
+    ];
+    res.send(obj);
+ });
+
+//功能二：热门团购
+ app.get("/goodsList",(req,res)=>{
+    var obj=[]; 
+    obj.push({bid:4,title:"远离雾霾、走进自然——瑶琳仙境、大奇山一日",content:"游通天飞瀑，观溶洞奇观",old:849,now:349,img_url:"http://127.0.0.1:3333/img/tg-bg.jpg",sc:568,dz:642,pl:184});
+    obj.push({bid:5,title:"远离雾霾、走进自然——瑶琳仙境、大奇山一日",content:"游通天飞瀑，观溶洞奇观",old:849,now:349,img_url:"http://127.0.0.1:3333/img/tg-bg1.jpg",sc:568,dz:642,pl:184});
+    obj.push({bid:6,title:"远离雾霾、走进自然——瑶琳仙境、大奇山一日",content:"游通天飞瀑，观溶洞奇观",old:849,now:349,img_url:"http://127.0.0.1:3333/img/tg-bg2.jpg",sc:568,dz:642,pl:184});
+    res.send(obj);
+  })
+//热门路线
+//周边游
+  app.get("/travelAround",(req,res)=>{
+    var obj=[]; 
+    obj.push({lid:7,title:"远离雾霾、走进自然——瑶琳仙境",content:"游通天飞瀑，观溶洞奇观",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm1.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:8,title:"游通天飞瀑，观溶洞奇观",content:"“丽人健康游”通天飞瀑独家千人...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm2.png",sc:568,dz:642,pl:184});
+    obj.push({lid:9,title:"东方小威尼斯",content:"苏州同里古镇乐扣乐扣...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm3.png",sc:568,dz:642,pl:184});
+    obj.push({lid:10,title:"穹窿山、孙武文化园春季踏...",content:"景区内氧气充足，空气中负离子...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm4.jpg",sc:568,dz:642,pl:184});
+    res.send(obj);
+  })
+
+  //国内游
+  app.get("/chinaAround",(req,res)=>{
+    var obj=[]; 
+    obj.push({lid:7,title:"风从草原来",content:"在干燥气候条件下，顺着沙坡下滑...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm5.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:8,title:"西宁-青海湖",content:"前往闻名中外的旅游风景名胜区—青海湖，行走在有...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm6.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:9,title:"玩转花千骨",content:"走近电视剧花千骨的拍摄地...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm7.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:10,title:"拉萨-米拉山口-林芝-桃花沟...",content:"赴林芝，在这里您可以观赏到...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm8.jpg",sc:568,dz:642,pl:184});
+    res.send(obj);
+  })
+  //出境游
+  app.get("/outBound",(req,res)=>{
+    var obj=[]; 
+    obj.push({lid:7,title:"埃及",content:"开罗+亚历山大+...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm9.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:8,title:"埃及+  阿联酋  10  天之旅",content:"乘车前往开罗参观老城区，是埃及最...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm10.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:9,title:"德法瑞意+金色山口列车+少女峰+新天鹅堡",content:" 巴黎圣母院是一座位于法国巴黎市中心...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm11.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:10,title:"下龙湾、河内、芽庄、胡志明...",content:" 越南，一个景色秀美、充满情调却不让大家...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm12.jpg",sc:568,dz:642,pl:184});
+    res.send(obj);
+  })
+  //自由行
+  app.get("/free",(req,res)=>{
+    var obj=[]; 
+    obj.push({lid:7,title:"东南亚自由行",content:"泰国知名旅游项目，以当地旅游环境为依托...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm13.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:8,title:"日韩自由行",content:"每到樱花盛开的季节，日本便成为桃红色的世界...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm14.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:9,title:"云南自由行",content:"云南著名的旅游景点有昆明、大理、丽江、香格里拉、西双版纳...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm15.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:10,title:"三亚自由行...",content:"号称中国最美的海滩,海风凉爽,沙滩海水蓝天人气...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm16.jpg",sc:568,dz:642,pl:184});
+    res.send(obj);
+  })
+  //邮轮行
+  app.get("/Cruise",(req,res)=>{  
+    var obj=[]; 
+    obj.push({lid:7,title:"MU3月首尔一地 “ 3+2 ” 半自由行5天",content:"【南山公园+首尔塔】～位于首尔市中心的南山公园，树林繁茂...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm17.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:8,title:"尊享澳港澳-双直航五日游",content:"“丽人健康游”通天飞瀑独家千人...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm18.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:9,title:"东京名古屋富士山品质5日游",content:"中部-富士山-箱根...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm19.jpg",sc:568,dz:642,pl:184});
+    obj.push({lid:10,title:"本州心感受【和服赏樱】温泉美食6日...",content:"前往东京，游览东京最富人情味的老街【浅草】...",old:849,now:349,img_url:"http://127.0.0.1:3333/img/rm20.jpg",sc:568,dz:642,pl:184});
+    res.send(obj);
+  })
+
+
+
+
+
