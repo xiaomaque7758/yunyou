@@ -23,6 +23,12 @@
                 <span class="spanpeice_one">已有666666人参团</span>
                 <span class="spanpeice_two">拼力省 <b>30.00元</b> </span>
             </h3>
+            票数
+            <div class="mui-numbox">
+				<button class="mui-btn mui-btn-numbox-minus" type="button" @click="goodSub">-</button>
+				<input class="mui-input-numbox" type="number" value="1" v-model="val"/>
+				<button class="mui-btn mui-btn-numbox-plus" type="button" @click="goodAdd">+</button>
+			</div>
         </div>
     </div>
     
@@ -40,7 +46,7 @@
                <p>剩余00小时00分00</p>
             </div>
             <div class="group_details_right">
-                <a href="#">立即<br/>参团</a>
+                <a href="#" @click="addCart">立即<br/>参团</a>
              </div>
             <div class="clear"></div>
          </li>
@@ -55,7 +61,7 @@
                <p class="time">剩余00小时00分00</p>
             </div>
             <div class="group_details_right">
-                <a href="#">立即<br/>参团</a>
+                <a href="#"  @click="addCart">立即<br/>参团</a>
             </div>
             <div class="clear"></div>
         </li>
@@ -67,10 +73,14 @@
 <script>
 //1.引入轮播图子组件
 import swipe from "../sub/Swipe.vue"
+//2.引入toast
+import {Toast} from "mint-ui"
 export default {
     data(){
         return{
-            list:[]
+            list:[],
+            nid:this.$route.params.id,
+            val:0,
         }
     },
     components:{
@@ -82,7 +92,36 @@ export default {
                 console.log(result.body);
                 this.list=result.body;
             })
-        }
+        },
+        addCart(){
+        //1.获取参数
+        var pid=this.$route.params.id;
+        var count=this.val;
+        var uid=3;
+        //2.发送请求
+        var url="http://127.0.0.1:3333/addCarts?pid="+pid+"&count="+count+"&uid="+uid;
+        this.axios.get(url).then(result=>{
+            if(result.data.code==1){
+                //修改全局共享数据carCount
+                this.$store.commit("increment",count);
+                Toast("参团成功");
+            }else{
+                Toast("参团失败");
+            }
+        })
+        //3.如果请示成功提示
+
+       },
+        goodSub(){
+            if(this.val>0){
+            this.val--
+            }
+        },
+        goodAdd(){
+            if(this.val<998){
+            this.val++
+            }
+        },
     },
     created(){
         this.getImages()

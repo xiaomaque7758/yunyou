@@ -392,3 +392,72 @@ app.get("/Around",(req,res)=>{
   })
   //7:返回结果
  });  
+
+
+
+//引入第三方模块:bodyParser 处理post请求
+const bodyParser = require("body-parser");
+//true 键值对 id:10 任意数据类型
+//false             string/array
+app.use(bodyParser.urlencoded({
+  extended:false
+}));
+
+
+//功能九：订单
+app.get("/addCarts",(req,res)=>{
+  //1:获取3个参数
+  //需要第三方模块支持 bodyParser
+  var uid = req.query.uid;
+  var pid = req.query.pid;
+  var c = req.query.count;
+  console.log(uid,pid,c);
+  //2:创建sql语句
+  var sql  =" INSERT INTO `yy_carts_item`(`iid`, `user_id`, `product_id`, `count`, `is_checked`) VALUES (null,?,?,?,0)"
+
+  pool.query(sql,[uid,pid,c],(err,result)=>{
+       if(err)throw err;
+       res.send({code:1,msg:"购物车添加成功"});
+  });
+  //3:返回添加结果
+})
+
+//功能十:查询购物详细信息
+app.get("/getCarts",(req,res)=>{
+  //1:获取参数 uname,upwd
+  var uid = req.query.uid;
+  //3:创建sql
+  var sql =" SELECT c.iid,c.user_id,c.count";
+  sql +=" ,p.price,p.lname";
+  sql +=" FROM yy_ticket p,";
+  sql +=" yy_carts_item c";
+  sql +=" WHERE p.lid = c.product_id";
+  sql +=" AND c.user_id = ?";
+  uid = parseInt(uid);
+  pool.query(sql,[uid],(err,result)=>{
+   if(err)throw err;
+   res.send({code:1,data:result});
+  });
+  //4:返回结果
+})
+
+//功能十一：更新购物车数量
+app.use("/updateCart",(req,res)=>{
+  //1.
+  var iid=req.query.iid;
+  var count=req.query.count;
+  //2.
+  var sql="UPDATE yy_carts_item SET count=? WHERE iid=?";
+  iid=parseInt(iid);
+  count=parseInt(count);
+  pool.query(sql,[count,iid],(err,result)=>{
+    if(err)throw err;
+    if(result.affectedRows>0){
+      res.send({code:1,msg:"数量修改成功"});
+    }else{
+      res.send({code:-1,msg:"数量修改失败"});
+    }
+  })
+})
+
+

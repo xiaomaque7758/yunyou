@@ -123,14 +123,15 @@
               <i></i>
            </a>
          </div>
-         <ul class="nav2">
-            <li class="focus" @click="getMore2">周边游</li>
-            <li @click="getMore3">国内游</li>
+         <ul class="nav2" >
+            <li v-for="(item,index) of list1" :key="item.id" @click="add(index)" v-bind:class="{focus
+            :index==current}">{{item.name}}</li>
+            <!-- <li @click="getMore3">国内游</li>
             <li @click="getMore4">出境游</li>
             <li @click="getMore5">自由行</li>
-            <li style="border:none;" @click="getMore6">游轮游</li>
-            <div class="clear"></div>
+            <li  @click="getMore6">游轮游</li> -->
          </ul>
+         <div class="clear"></div>
    </div>
    <ul class="mui-table-view"  v-for="item in listS" :key="item.lid">
         <li class="mui-table-view-cell mui-media">
@@ -161,6 +162,8 @@
     export default {    
         data(){
             return {
+                current:0,
+                list1:[{id:1,name:"周边游",en:"travelAround"},{id:2,name:"国内游",en:"chinaAround"},{id:3,name:"出境游",en:"outBound"},{id:4,name:"自由行",en:"free"},{id:5,name:"游轮游",en:"Cruise"}],
                 listImg:[],
                 listR:[],
                 listS:[]
@@ -185,41 +188,20 @@
                     this.listR=result.body;
                 })
               },
+            add(index){
+                this.current=index;
+                var url=this.list1[index].en;
+                this.$http.get(url).then(result=>{
+                    console.log(result.body);
+                    this.listS=result.body;
+                })
+            },
             getMore2(){
-            
-            var url="travelAround";
-            this.$http.get(url).then(result=>{
-                console.log(result.body);
-                this.listS=result.body;
-            })
-            },
-            getMore3(){
-            var url="chinaAround";
-            this.$http.get(url).then(result=>{
-                console.log(result.body);
-                this.listS=result.body;
-            })
-            },
-            getMore4(){
-            var url="outBound";
-            this.$http.get(url).then(result=>{
-                console.log(result.body);
-                this.listS=result.body;
-            })
-            },
-            getMore5(){
-            var url="free";
-            this.$http.get(url).then(result=>{
-                console.log(result.body);
-                this.listS=result.body;
-            })
-            },
-            getMore6(){
-            var url="Cruise";
-            this.$http.get(url).then(result=>{
-                console.log(result.body);
-                this.listS=result.body;
-            })
+                var url="travelAround";
+                this.$http.get(url).then(result=>{
+                    console.log(result.body);
+                    this.listS=result.body;
+                })
             }
         },
         created(){

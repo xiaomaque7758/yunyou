@@ -32,7 +32,8 @@
 				<span class="mui-tab-label">发现</span>
 			</router-link>
 			<router-link class="mui-tab-item" to="/Cart">
-				<span class="mui-icon mui-icon-extra mui-icon-extra-cart"></span>
+				<span class="mui-icon mui-icon-extra mui-icon-extra-cart">
+				<span class="mui-badge"> {{$store.getters.optCartCount}} </span></span>
 				<span class="mui-tab-label">订单</span>
 			</router-link> 
 			<router-link class="mui-tab-item" to="/Myself">
