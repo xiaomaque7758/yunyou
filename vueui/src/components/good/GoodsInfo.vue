@@ -23,7 +23,7 @@
                 <span class="spanpeice_one">已有666666人参团</span>
                 <span class="spanpeice_two">拼力省 <b>30.00元</b> </span>
             </h3>
-            票数
+            <span class="count">票数</span> 
             <div class="mui-numbox">
 				<button class="mui-btn mui-btn-numbox-minus" type="button" @click="goodSub">-</button>
 				<input class="mui-input-numbox" type="number" value="1" v-model="val"/>
@@ -305,6 +305,17 @@ export default {
         border-radius: 50%;
         float: right;
         padding-top: 3px;
+    }
+
+    /*票数*/
+   .count{
+        font-size: 14px;
+        color: #000;
+        margin-right: 5px;
+    }
+    .app-goodsinfo.group_detailss_price .mui-numbox{
+        margin-left: 2px !important;
+        margin-top: 10px;
     }
 </style>
 

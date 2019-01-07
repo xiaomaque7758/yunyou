@@ -12,9 +12,9 @@
 				    <li class="mui-table-view-cell mui-media" v-for="item in list" :key="item.iid">
 			      	<a href="javascript:;">
 				       <div class="mui-media-body">
-						{{item.lname}}
+					   	{{item.lname}}
 						<p class='mui-ellipsis'>
-                          <span class="price">{{item.price}}</span>
+                          <span class="price">￥{{item.price}}</span>
                           <span class="count">
                              <div class="mui-numbox">
                                 <button class="mui-btn mui-btn-numbox-minus" type="button" @click="cartSub" :data-iid="item.iid">-</button>
@@ -106,4 +106,7 @@
 </script>
 <style>
     
+.app-cart .mui-card-content p{
+  margin-top: 2px !important;
+}
 </style>
